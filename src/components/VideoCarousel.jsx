@@ -2,9 +2,13 @@ import { useRef } from "react";
 import { highlightsSlides } from "../constants";
 import { useState } from "react";
 import { useEffect } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { pauseImg, playImg, replayImg } from "../utils";
+
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const VideoCarousel = () => {
   const videoRef = useRef([]);
@@ -135,6 +139,7 @@ const VideoCarousel = () => {
           ...pre,
           isLastVideo: false,
           videoId: 0,
+          isPlaying: true,
         }));
         break;
       case "play":
@@ -218,8 +223,10 @@ const VideoCarousel = () => {
             alt={isLastVideo ? "replay" : !isPlaying ? "play" : "pause"}
             onClick={
               isLastVideo
-                ? () => handleProcess("play")
-                : () => handleProcess("pause")
+                ? // ? () => handleProcess("play")
+                  // : () => handleProcess("pause")
+                  () => handleProcess("video-reset")
+                : () => handleProcess(isPlaying ? "pause" : "play")
             }
           />
         </button>
